@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../consts/app_images.dart';
 import '../../widgets/empty_bag.dart';
 import '../../widgets/title_text.dart';
+import 'bottom_checkout.dart';
 import 'cart_widget.dart';
 
 class CartScreen extends StatelessWidget {
@@ -21,6 +22,7 @@ class CartScreen extends StatelessWidget {
             ),
           )
         : Scaffold(
+            bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: const TitlesTextWidget(label: "Cart (5)"),
               leading: Padding(
