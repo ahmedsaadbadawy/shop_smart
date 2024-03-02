@@ -1,5 +1,5 @@
-class Assets {
-  Assets._();
+class AssetsManager {
+  AssetsManager._();
 
   /// Assets for imagesAddressMap
   /// assets/images/address_map.png
