@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'screens/home_screen.dart';
+import 'utils/providers/theme_provider.dart';
+import 'utils/theme_data.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-    ],
-  ).then(
-    (_) {
-      runApp(const StoreSmart());
-    },
-  );
+  runApp(const ShopSmart());
 }
 
-class StoreSmart extends StatelessWidget {
-  const StoreSmart({super.key});
+class ShopSmart extends StatelessWidget {
+  const ShopSmart({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(),
+    // final themeProvider = Provider.of<ThemeProvider>(context);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        ),
+      ],
+      child: Consumer<ThemeProvider>(builder: (
+        context,
+        themeProvider,
+        child,
+      ) {
+        return MaterialApp(
+          title: 'Shop Smart',
+          theme: Styles.themeData(
+              isDarkTheme: themeProvider.getIsDarkTheme, context: context),
+          home: const HomeScreen(),
+        );
+      }),
     );
   }
 }
