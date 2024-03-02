@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/providers/theme_provider.dart';
-
+import '../utils/widgets/subtitle_text.dart';
+import '../utils/widgets/title_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,12 +15,15 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            "Hello world",
-            style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.w800,
-            ),
+          const SubtitleTextWidget(
+            label: "Hi again!",
+            fontSize: 60,
+            color: Colors.red,
+          ),
+          TitlesTextWidget(
+            label: "This is a title" * 10,
+            fontSize: 50,
+            maxLines: 2,
           ),
           ElevatedButton(
             onPressed: () {},
