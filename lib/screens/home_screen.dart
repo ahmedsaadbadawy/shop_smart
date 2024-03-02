@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      body: Column( 
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SubtitleTextWidget(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
 import 'providers/theme_provider.dart';
-import 'screens/home_screen.dart';
+import 'root_screen.dart';
 
 void main() {
   runApp(const ShopSmart());
@@ -11,7 +11,6 @@ void main() {
 class ShopSmart extends StatelessWidget {
   const ShopSmart({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // final themeProvider = Provider.of<ThemeProvider>(context);
@@ -30,7 +29,7 @@ class ShopSmart extends StatelessWidget {
           title: 'Shop Smart',
           theme: Styles.themeData(
               isDarkTheme: themeProvider.getIsDarkTheme, context: context),
-          home: const HomeScreen(),
+          home: const RootScreen(),
         );
       }),
     );
