@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'consts/theme_data.dart';
+import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
-import 'utils/providers/theme_provider.dart';
-import 'utils/theme_data.dart';
 
 void main() {
   runApp(const ShopSmart());

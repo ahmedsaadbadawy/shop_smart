@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../utils/providers/theme_provider.dart';
-import '../utils/widgets/subtitle_text.dart';
-import '../utils/widgets/title_text.dart';
+import '../providers/theme_provider.dart';
+import '../widgets/subtitle_text.dart';
+import '../widgets/title_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      body: Column(
+      body: Column( 
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SubtitleTextWidget(
