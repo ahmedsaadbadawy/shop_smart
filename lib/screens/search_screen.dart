@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import '../consts/app_images.dart';
 import '../widgets/title_text.dart';
 
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
+
+import '../widgets/products/product_widget.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -45,6 +49,9 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                const SizedBox(
+                  height: 15.0,
+                ),
                 TextField(
                   controller: searchTextController,
                   decoration: InputDecoration(
@@ -52,10 +59,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: GestureDetector(
                       onTap: () {
-                        setState(() {
                           searchTextController.clear();
                           FocusScope.of(context).unfocus();
-                        });
                       },
                       child: const Icon(
                         Icons.clear,
@@ -67,6 +72,18 @@ class _SearchScreenState extends State<SearchScreen> {
                   onSubmitted: (value) {
                     log(searchTextController.text);
                   },
+                ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                Expanded(
+                  child: DynamicHeightGridView(
+                    itemCount: 220,
+                    builder: ((context, index) {
+                      return const ProductWidget();
+                    }),
+                    crossAxisCount: 2,
+                  ),
                 ),
               ],
             ),
