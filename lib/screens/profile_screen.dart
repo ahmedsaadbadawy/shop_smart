@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
 import '../consts/app_images.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/app_name_text.dart';
 import '../widgets/subtitle_text.dart';
 import '../widgets/title_text.dart';
+import 'inner_screens/wishlist.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -86,12 +88,16 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTile(
                     imagePath: AssetsManager.imagesBagWishlistSvg,
                     text: "Wishlist",
-                    function: () {},
+                    function: () async{
+                      await Navigator.pushNamed(context, WishlistScreen.routName);
+                    },
                   ),
                   CustomListTile(
                     imagePath: AssetsManager.imagesProfileRecent,
                     text: "Viewed recently",
-                    function: () {},
+                    function: () async{
+                      await Navigator.pushNamed(context, ViewedRecentlyScreen.routName);
+                    },
                   ),
                   CustomListTile(
                     imagePath: AssetsManager.imagesProfileAddress,
