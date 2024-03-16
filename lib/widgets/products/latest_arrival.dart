@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '/widgets/subtitle_text.dart';
 
 import '../../consts/app_constants.dart';
+import '../../screens/inner_screens/product_details.dart';
 import 'heart_btn.dart';
 
 class LatestArrivalProductsWidget extends StatelessWidget {
@@ -15,6 +16,7 @@ class LatestArrivalProductsWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
+          await Navigator.pushNamed(context, ProductDetails.routName);
         },
         child: SizedBox(
           width: size.width * 0.45,

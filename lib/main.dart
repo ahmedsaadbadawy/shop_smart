@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
 import 'providers/theme_provider.dart';
 import 'root_screen.dart';
+import 'screens/inner_screens/product_details.dart';
 
 void main() {
   runApp(const ShopSmart());
@@ -31,6 +32,9 @@ class ShopSmart extends StatelessWidget {
           theme: Styles.themeData(
               isDarkTheme: themeProvider.getIsDarkTheme, context: context),
           home: const RootScreen(),
+          routes: {
+            ProductDetails.routName: (context) => const ProductDetails(),
+          },
         );
       }),
     );
