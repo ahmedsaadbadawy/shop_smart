@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
 import '../consts/app_images.dart';
 import '../providers/theme_provider.dart';
+import '../services/my_app_method.dart';
 import '../widgets/app_name_text.dart';
 import '../widgets/subtitle_text.dart';
 import '../widgets/title_text.dart';
@@ -88,15 +89,17 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTile(
                     imagePath: AssetsManager.imagesBagWishlistSvg,
                     text: "Wishlist",
-                    function: () async{
-                      await Navigator.pushNamed(context, WishlistScreen.routName);
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, WishlistScreen.routName);
                     },
                   ),
                   CustomListTile(
                     imagePath: AssetsManager.imagesProfileRecent,
                     text: "Viewed recently",
-                    function: () async{
-                      await Navigator.pushNamed(context, ViewedRecentlyScreen.routName);
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, ViewedRecentlyScreen.routName);
                     },
                   ),
                   CustomListTile(
@@ -143,7 +146,13 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await MyAppMethods.showErrorORWarningDialog(
+                      context: context,
+                      subtitle: "Are you sure?",
+                      fct: () {},
+                      isError: false);
+                },
                 icon: const Icon(Icons.login),
                 label: const Text(
                   "Login",
