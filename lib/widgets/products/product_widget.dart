@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_smart/providers/product_provider.dart';
 
-import '../../models/product_model.dart';
 import '../../screens/inner_screens/product_details.dart';
 import '../subtitle_text.dart';
 import '../title_text.dart';
@@ -30,7 +29,10 @@ class _ProductWidgetState extends State<ProductWidget> {
       padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () async {
-          await Navigator.pushNamed(context, ProductDetails.routName);
+          await Navigator.pushNamed(
+            context, ProductDetails.routName,
+            arguments: getCurrProduct.productId,
+          );
         },
         child: Column(
           children: [
