@@ -1,8 +1,8 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_smart/providers/product_provider.dart';
 
-import '../../consts/app_constants.dart';
 import '../../models/product_model.dart';
 import '../../screens/inner_screens/product_details.dart';
 import '../subtitle_text.dart';
@@ -10,7 +10,11 @@ import '../title_text.dart';
 import 'heart_btn.dart';
 
 class ProductWidget extends StatefulWidget {
-  const ProductWidget({super.key});
+  const ProductWidget({
+    super.key,
+    required this.productId,
+  });
+  final String productId;
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
 }
@@ -18,9 +22,11 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
-    final productModelProvider = Provider.of<ProductModel>(context);
+    //final productModelProvider = Provider.of<ProductModel>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrProduct = productProvider.findByProdId(widget.productId);
     Size size = MediaQuery.of(context).size;
-    return Padding(
+    return getCurrProduct==null? const SizedBox.shrink() : Padding(
       padding: const EdgeInsets.all(3.0),
       child: GestureDetector(
         onTap: () async {
@@ -31,7 +37,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
               child: FancyShimmerImage(
-                imageUrl: productModelProvider.productImage,
+                imageUrl: getCurrProduct.productImage,
                 width: double.infinity,
                 height: size.height * 0.22,
               ),
@@ -44,7 +50,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 Flexible(
                   flex: 5,
                   child: TitlesTextWidget(
-                    label: productModelProvider.productTitle,
+                    label: getCurrProduct.productTitle,
                     maxLines: 2,
                     fontSize: 18,
                   ),
@@ -66,7 +72,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   Flexible(
                     flex: 3,
                     child: SubtitleTextWidget(
-                        label: "${productModelProvider.productPrice}\$"),
+                        label: "${getCurrProduct.productPrice}\$"),
                   ),
                   Flexible(
                     child: Material(
