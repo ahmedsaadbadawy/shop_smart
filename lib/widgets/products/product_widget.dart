@@ -1,15 +1,16 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../consts/app_constants.dart';
+import '../../models/product_model.dart';
 import '../../screens/inner_screens/product_details.dart';
 import '../subtitle_text.dart';
 import '../title_text.dart';
 import 'heart_btn.dart';
 
 class ProductWidget extends StatefulWidget {
-  const ProductWidget({super.key, this.image, this.title, this.price});
-  final String? image, title, price;
+  const ProductWidget({super.key});
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
 }
@@ -17,6 +18,7 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
+    final productModelProvider = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(3.0),
@@ -29,7 +31,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
               child: FancyShimmerImage(
-                imageUrl: widget.image ?? AppConstants.productImageUrl,
+                imageUrl: productModelProvider.productImage,
                 width: double.infinity,
                 height: size.height * 0.22,
               ),
@@ -42,7 +44,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 Flexible(
                   flex: 5,
                   child: TitlesTextWidget(
-                    label: widget.title ?? "Title " * 10,
+                    label: productModelProvider.productTitle,
                     maxLines: 2,
                     fontSize: 18,
                   ),
@@ -64,7 +66,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   Flexible(
                     flex: 3,
                     child: SubtitleTextWidget(
-                        label: "${widget.price ?? '166.5'}\$"),
+                        label: "${productModelProvider.productPrice}\$"),
                   ),
                   Flexible(
                     child: Material(
