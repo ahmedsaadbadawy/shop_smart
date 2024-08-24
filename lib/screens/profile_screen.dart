@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_smart/screens/inner_screens/orders/orders_screen.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
 import '../consts/app_images.dart';
 import '../providers/theme_provider.dart';
@@ -84,7 +85,12 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTile(
                     imagePath: AssetsManager.imagesBagOrderSvg,
                     text: "All orders",
-                    function: () {},
+                    function: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        OrdersScreenFree.routName,
+                      );
+                    },
                   ),
                   CustomListTile(
                     imagePath: AssetsManager.imagesBagWishlistSvg,
