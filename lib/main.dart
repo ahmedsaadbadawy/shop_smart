@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_smart/providers/product_provider.dart';
 import 'package:shop_smart/screens/auth/register.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
+import 'package:shop_smart/screens/search_screen.dart';
 import 'consts/theme_data.dart';
 import 'providers/theme_provider.dart';
 import 'root_screen.dart';
@@ -53,6 +54,7 @@ class ShopSmart extends StatelessWidget {
             OrdersScreenFree.routName: (context) => const OrdersScreenFree(),
             ForgotPasswordScreen.routName: (context) =>
                 const ForgotPasswordScreen(),
+            SearchScreen.routName: (context) => const SearchScreen(),
           },
         );
       }),
