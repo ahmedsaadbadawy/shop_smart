@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:shop_smart/models/product_model.dart';
 
 import '../consts/app_images.dart';
 import '../widgets/title_text.dart';
@@ -59,8 +60,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: GestureDetector(
                       onTap: () {
-                          searchTextController.clear();
-                          FocusScope.of(context).unfocus();
+                        searchTextController.clear();
+                        FocusScope.of(context).unfocus();
                       },
                       child: const Icon(
                         Icons.clear,
@@ -78,9 +79,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 Expanded(
                   child: DynamicHeightGridView(
-                    itemCount: 220,
+                    itemCount: ProductModel.localProds.length,
                     builder: ((context, index) {
-                      return const ProductWidget();
+                      return ProductWidget(
+                        image: ProductModel.localProds[index].productImage,
+                        title: ProductModel.localProds[index].productTitle,
+                        price: ProductModel.localProds[index].productPrice,
+                      );
                     }),
                     crossAxisCount: 2,
                   ),
