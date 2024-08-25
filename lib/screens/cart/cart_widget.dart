@@ -1,7 +1,10 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_smart/models/cart_model.dart';
 
+import '../../providers/product_provider.dart';
 import '../../widgets/products/heart_btn.dart';
 import '../../widgets/subtitle_text.dart';
 import '../../widgets/title_text.dart';
@@ -12,8 +15,11 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartModelProvider = Provider.of<CartModel>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+    final getCurrProduct = productProvider.findByProdId(cartModelProvider.productId);
     Size size = MediaQuery.of(context).size;
-    return FittedBox(
+    return getCurrProduct == null? const SizedBox.shrink(): FittedBox(
       child: IntrinsicWidth(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -23,7 +29,7 @@ class CartWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: FancyShimmerImage(
                   imageUrl:
-                      'https://i.ibb.co/8r1Ny2n/20-Nike-Air-Force-1-07.png',
+                      getCurrProduct.productImage,
                   height: size.height * 0.2,
                   width: size.height * 0.2,
                 ),
@@ -39,7 +45,7 @@ class CartWidget extends StatelessWidget {
                         SizedBox(
                           width: size.width * 0.6,
                           child: TitlesTextWidget(
-                            label: "Title" * 10,
+                            label: getCurrProduct.productTitle,
                             maxLines: 2,
                           ),
                         ),
@@ -59,8 +65,8 @@ class CartWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const SubtitleTextWidget(
-                          label: "16\$",
+                        SubtitleTextWidget(
+                          label: "${getCurrProduct.productPrice}\$",
                           fontSize: 20,
                           color: Colors.blue,
                         ),
@@ -74,7 +80,7 @@ class CartWidget extends StatelessWidget {
                               color: Colors.blue,
                             ),
                           ),
-                           onPressed: () async {
+                          onPressed: () async {
                             await showModalBottomSheet(
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
@@ -91,7 +97,7 @@ class CartWidget extends StatelessWidget {
                             );
                           },
                           icon: const Icon(IconlyLight.arrow_down_2),
-                          label: const Text("Qty: 6 "),
+                          label: Text("Qty: ${cartModelProvider.quantity} "),
                         ),
                       ],
                     )
