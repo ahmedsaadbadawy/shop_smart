@@ -67,7 +67,7 @@ class _RootScreenState extends State<RootScreen> {
           NavigationDestination(
             selectedIcon: const Icon(IconlyBold.bag_2),
             icon: Badge(
-              label: Text(cartProvider.getCartItem.length.toString()),
+              label: Text(cartProvider.getCartItems.length.toString()),
               child: const Icon(IconlyLight.bag_2),
             ),
             label: "Cart",

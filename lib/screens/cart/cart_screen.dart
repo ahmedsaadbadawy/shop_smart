@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_smart/providers/cart_provider.dart';
+import 'package:shop_smart/services/my_app_method.dart';
 
 import '../../consts/app_images.dart';
 import '../../widgets/empty_bag.dart';
@@ -15,7 +16,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
 
-    return cartProvider.getCartItem.isEmpty
+    return cartProvider.getCartItems.isEmpty
         ? const Scaffold(
             body: EmptyBagWidget(
               imagePath: AssetsManager.imagesBagShoppingBasket,
@@ -29,14 +30,21 @@ class CartScreen extends StatelessWidget {
             bottomSheet: const CartBottomCheckout(),
             appBar: AppBar(
               title: TitlesTextWidget(
-                  label: "Cart (${cartProvider.getCartItem.length})"),
+                  label: "Cart (${cartProvider.getCartItems.length})"),
               leading: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(AssetsManager.imagesBagShoppingCart),
               ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MyAppMethods.showErrorORWarningDialog(
+                      context: context,
+                      subtitle: "Remove items",
+                      fct: () => cartProvider.clearLocalCard(),
+                      isError: false,
+                    );
+                  },
                   icon: const Icon(
                     Icons.delete_forever_rounded,
                     color: Colors.red,
@@ -48,10 +56,10 @@ class CartScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: cartProvider.getCartItem.length,
+                    itemCount: cartProvider.getCartItems.length,
                     itemBuilder: (context, index) {
                       return ChangeNotifierProvider.value(
-                        value: cartProvider.getCartItem.values
+                        value: cartProvider.getCartItems.values
                             .toList()
                             .reversed
                             .toList()[index],
