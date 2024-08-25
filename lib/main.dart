@@ -5,6 +5,7 @@ import 'package:shop_smart/screens/auth/register.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
 import 'package:shop_smart/screens/search_screen.dart';
 import 'consts/theme_data.dart';
+import 'providers/cart_provider.dart';
 import 'providers/theme_provider.dart';
 import 'root_screen.dart';
 import 'screens/auth/forgot_password.dart';
@@ -30,6 +31,9 @@ class ShopSmart extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (
