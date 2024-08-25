@@ -25,4 +25,16 @@ class CartProvider with ChangeNotifier {
   bool isProductInCart({required String productId}) {
     return _cartItem.containsKey(productId);
   }
+
+  void updateQuantity({required String productId,required int quantity}) {
+    getCartItem.update(
+      productId,
+      (item) => CartModel(
+        cartId: item.cartId,
+        productId: productId,
+        quantity: quantity,
+      ),
+    );
+    notifyListeners();
+  }
 }
