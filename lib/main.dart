@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_smart/providers/product_provider.dart';
+import 'package:shop_smart/providers/viewed_prod_provider.dart';
 import 'package:shop_smart/providers/wishlist_provider.dart';
 import 'package:shop_smart/screens/auth/register.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
@@ -38,6 +39,9 @@ class ShopSmart extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => WishlistProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ViewedProdProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_smart/providers/product_provider.dart';
 
 import '../../providers/cart_provider.dart';
+import '../../providers/viewed_prod_provider.dart';
 import '../../screens/inner_screens/product_details.dart';
 import '../subtitle_text.dart';
 import '../title_text.dart';
@@ -26,6 +27,7 @@ class _ProductWidgetState extends State<ProductWidget> {
     final productProvider = Provider.of<ProductProvider>(context);
     final getCurrProduct = productProvider.findByProdId(widget.productId);
     final cartProvider = Provider.of<CartProvider>(context);
+    final viewedProvider = Provider.of<ViewedProdProvider>(context);
     Size size = MediaQuery.of(context).size;
     return getCurrProduct == null
         ? const SizedBox.shrink()
@@ -33,6 +35,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(
               onTap: () async {
+                viewedProvider.addProductToHistory(productId: getCurrProduct.productId);
                 await Navigator.pushNamed(
                   context,
                   ProductDetails.routName,
