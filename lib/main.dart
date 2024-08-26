@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_smart/firebase_options.dart';
 import 'package:shop_smart/providers/product_provider.dart';
 import 'package:shop_smart/providers/viewed_prod_provider.dart';
 import 'package:shop_smart/providers/wishlist_provider.dart';
@@ -16,7 +18,11 @@ import 'screens/inner_screens/orders/orders_screen.dart';
 import 'screens/inner_screens/product_details.dart';
 import 'screens/inner_screens/wishlist.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ShopSmart());
 }
 
