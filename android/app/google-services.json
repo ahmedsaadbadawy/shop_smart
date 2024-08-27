@@ -12,7 +12,20 @@
           "package_name": "com.example.shop_smart"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "93145446085-iqsff1rlpf9mm6msq1k9jl1cvh5dukmd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shop_smart",
+            "certificate_hash": "6b195dbd139e92bd9f99773c0243b990a76977f1"
+          }
+        },
+        {
+          "client_id": "93145446085-dt1lg1b7k1a8i2eu4utfml78pnaccagc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDn0gDSJbeoYxOSehGBb4_z4iwdZEkDY4Y"
@@ -20,7 +33,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93145446085-dt1lg1b7k1a8i2eu4utfml78pnaccagc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93145446085-iceaudtdbmsifb38ll678hdaj3edcncr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopsmartAdminPanel"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93145446085:android:fe4dde65248b43587f22ac",
+        "android_client_info": {
+          "package_name": "com.example.shopsmart_admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93145446085-dt1lg1b7k1a8i2eu4utfml78pnaccagc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn0gDSJbeoYxOSehGBb4_z4iwdZEkDY4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93145446085-dt1lg1b7k1a8i2eu4utfml78pnaccagc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93145446085-iceaudtdbmsifb38ll678hdaj3edcncr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopsmartAdminPanel"
+              }
+            }
+          ]
         }
       }
     }
