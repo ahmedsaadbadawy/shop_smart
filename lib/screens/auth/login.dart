@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
+import 'package:shop_smart/root_screen.dart';
 import 'package:shop_smart/screens/auth/forgot_password.dart';
 import '../../consts/my_validators.dart';
+import '../../services/my_app_method.dart';
 import '../../widgets/app_name_text.dart';
 import '../../widgets/auth/google_btn.dart';
 import '../../widgets/subtitle_text.dart';
@@ -23,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late final FocusNode _passwordFocusNode;
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
+  bool isLoading = false;
+  final auth = FirebaseAuth.instance;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -46,7 +52,45 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _loginFct() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (isValid) {}
+    if (isValid) {
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        await auth.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+        Fluttertoast.showToast(
+          msg: "Login Successful",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+        );
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, RootScreen.routName);
+        }
+      } on FirebaseAuthException catch (e) {
+        if (mounted) {
+          MyAppMethods.showErrorORWarningDialog(
+            context: context,
+            subtitle: "An error has been occured ${e.message}",
+            fct: () {},
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          MyAppMethods.showErrorORWarningDialog(
+            context: context,
+            subtitle: "An error has been occured $e",
+            fct: () {},
+          );
+        }
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override

@@ -61,7 +61,7 @@ class ShopSmart extends StatelessWidget {
           theme: Styles.themeData(
               isDarkTheme: themeProvider.getIsDarkTheme, context: context),
           //home: const RootScreen(),
-          home: const RegisterScreen(),
+          home: const LoginScreen(),
           routes: {
             ProductDetails.routName: (context) => const ProductDetails(),
             WishlistScreen.routName: (context) => const WishlistScreen(),
@@ -73,6 +73,7 @@ class ShopSmart extends StatelessWidget {
             ForgotPasswordScreen.routName: (context) =>
                 const ForgotPasswordScreen(),
             SearchScreen.routName: (context) => const SearchScreen(),
+            RootScreen.routName: (context) => const RootScreen(),
           },
         );
       }),

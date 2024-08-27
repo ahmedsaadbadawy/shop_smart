@@ -8,6 +8,7 @@ import 'screens/profile_screen.dart';
 import 'screens/search_screen.dart';
 
 class RootScreen extends StatefulWidget {
+  static const routName = '/RootScreen';
   const RootScreen({super.key});
 
   @override

@@ -64,13 +64,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      // if (_pickedImage == null) {
-      //   MyAppMethods.showErrorORWarningDialog(
-      //     context: context,
-      //     subtitle: "Make sure to pick up an image",
-      //     fct: () {},
-      //   );
-      // }
+      if (_pickedImage == null) {
+        MyAppMethods.showErrorORWarningDialog(
+          context: context,
+          subtitle: "Make sure to pick up an image",
+          fct: () {},
+        );
+      }
       try {
         setState(() {
           isLoading = true;
