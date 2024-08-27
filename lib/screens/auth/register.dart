@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_smart/services/my_app_method.dart';
+import '../../root_screen.dart';
 import '../../widgets/auth/pick_image_widget.dart';
 import '/consts/my_validators.dart';
 import '/widgets/app_name_text.dart';
@@ -84,6 +85,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           toastLength: Toast.LENGTH_SHORT,
           textColor: Colors.white,
         );
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, RootScreen.routName);
+        }
       } on FirebaseAuthException catch (e) {
         if (mounted) {
           MyAppMethods.showErrorORWarningDialog(

@@ -52,7 +52,9 @@ class MyAppMethods {
                   TextButton(
                     onPressed: () {
                       fct();
-                      Navigator.pop(context);
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
                     },
                     child: const SubtitleTextWidget(
                         label: "OK", color: Colors.red),

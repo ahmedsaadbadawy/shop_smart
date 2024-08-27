@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_smart/screens/auth/login.dart';
 import 'package:shop_smart/screens/inner_screens/orders/orders_screen.dart';
 import 'package:shop_smart/screens/inner_screens/viewed_recently.dart';
 import '../consts/app_images.dart';
@@ -11,9 +13,15 @@ import '../widgets/subtitle_text.dart';
 import '../widgets/title_text.dart';
 import 'inner_screens/wishlist.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -153,15 +161,28 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await MyAppMethods.showErrorORWarningDialog(
+                  if (user == null) {
+                    await Navigator.pushNamed(context, LoginScreen.routName);
+                  } else {
+                    await MyAppMethods.showErrorORWarningDialog(
                       context: context,
                       subtitle: "Are you sure?",
-                      fct: () {},
-                      isError: false);
+                      fct: () async {
+                        await FirebaseAuth.instance.signOut();
+                        await Navigator.pushNamed(
+                            context, LoginScreen.routName);
+                      },
+                      isError: false,
+                    );
+                  }
                 },
-                icon: const Icon(Icons.login),
-                label: const Text(
-                  "Login",
+                icon: user == null
+                    ? const Icon(Icons.login, color: Colors.white)
+                    : const Icon(Icons.logout, color: Colors.white),
+                label: Text(
+                  user == null ? "Login" : "Sign up",
+                  selectionColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
