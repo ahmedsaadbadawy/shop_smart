@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_smart/services/my_app_method.dart';
@@ -27,8 +29,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _confirmPasswordFocusNode;
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
-
+  bool isLoading = false;
   XFile? _pickedImage;
+  final auth = FirebaseAuth.instance;
   @override
   void initState() {
     _nameController = TextEditingController();
@@ -61,12 +64,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
-      if (_pickedImage == null) {
-        MyAppMethods.showErrorORWarningDialog(
-          context: context,
-          subtitle: "Make sure to pick up an image",
-          fct: () {},
+      // if (_pickedImage == null) {
+      //   MyAppMethods.showErrorORWarningDialog(
+      //     context: context,
+      //     subtitle: "Make sure to pick up an image",
+      //     fct: () {},
+      //   );
+      // }
+      try {
+        setState(() {
+          isLoading = true;
+        });
+        await auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
         );
+        Fluttertoast.showToast(
+          msg: "An account has been created",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (mounted) {
+          MyAppMethods.showErrorORWarningDialog(
+            context: context,
+            subtitle: "An error has been occured ${e.message}",
+            fct: () {},
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          MyAppMethods.showErrorORWarningDialog(
+            context: context,
+            subtitle: "An error has been occured $e",
+            fct: () {},
+          );
+        }
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
       }
     }
   }
