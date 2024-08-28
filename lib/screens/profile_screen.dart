@@ -25,7 +25,10 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   User? user = FirebaseAuth.instance.currentUser;
   bool _isLoading = true;
   UserModel? userModel;
@@ -66,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
@@ -107,9 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   color: Theme.of(context).colorScheme.surface,
                                   width: 3),
                               image: DecorationImage(
-                                image: NetworkImage(
-                                  userModel?.userImage??"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                                ),
+                                image: NetworkImage(userModel?.userImage ??
+                                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"),
                                 fit: BoxFit.fill,
                               ),
                             ),
