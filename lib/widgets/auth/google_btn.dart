@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
@@ -19,7 +18,6 @@ class GoogleButton extends StatelessWidget {
       final googleAuth = await googleAccount.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         try {
-          final UserCredential authResults =
               await FirebaseAuth.instance.signInWithCredential(
             GoogleAuthProvider.credential(
               accessToken: googleAuth.accessToken,
