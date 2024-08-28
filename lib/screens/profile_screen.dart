@@ -169,8 +169,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       subtitle: "Are you sure?",
                       fct: () async {
                         await FirebaseAuth.instance.signOut();
-                        await Navigator.pushNamed(
-                            context, LoginScreen.routName);
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                          await Navigator.pushNamed(
+                              context, LoginScreen.routName);
+                        });
                       },
                       isError: false,
                     );
