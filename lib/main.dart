@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_smart/firebase_options.dart';
 import 'package:shop_smart/providers/product_provider.dart';
+import 'package:shop_smart/providers/user_provider.dart';
 import 'package:shop_smart/providers/viewed_prod_provider.dart';
 import 'package:shop_smart/providers/wishlist_provider.dart';
 import 'package:shop_smart/screens/auth/register.dart';
@@ -48,6 +49,9 @@ class ShopSmart extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ViewedProdProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
         ),
       ],
       child: Consumer<ThemeProvider>(builder: (
