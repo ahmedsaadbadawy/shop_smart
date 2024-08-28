@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
@@ -35,6 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
   XFile? _pickedImage;
   final auth = FirebaseAuth.instance;
+  String? userImageUrl;
   @override
   void initState() {
     _nameController = TextEditingController();
@@ -66,18 +70,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _registerFct() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
+    if (_pickedImage == null) {
+      MyAppMethods.showErrorORWarningDialog(
+        context: context,
+        subtitle: "Make sure to pick up an image",
+        fct: () {},
+      );
+      return;
+    }
     if (isValid) {
-      if (_pickedImage == null) {
-        // MyAppMethods.showErrorORWarningDialog(
-        //   context: context,
-        //   subtitle: "Make sure to pick up an image",
-        //   fct: () {},
-        // );
-      }
       try {
         setState(() {
           isLoading = true;
         });
+
+        // child("usersImages") => a folder.
+        // child('${_emailController.text.trim()}.jpg') => a file inside it.
+        // then ref => folder => the spacific file.
+        final Reference ref = FirebaseStorage.instance
+            .ref()
+            .child("usersImages")
+            .child('${_emailController.text.trim()}.jpg');
+        await ref.putFile(File(_pickedImage!.path));
+        userImageUrl = await ref.getDownloadURL();
+
         await auth.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -87,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await FirebaseFirestore.instance.collection("users").doc(uid).set({
           'userId': uid,
           'userName': _nameController.text,
-          'userImage': "",
+          'userImage': userImageUrl,
           'userEmail': _emailController.text.toLowerCase(),
           'createdAt': Timestamp.now(),
           'userWish': [],
