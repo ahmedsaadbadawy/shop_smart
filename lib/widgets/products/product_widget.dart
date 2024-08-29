@@ -6,6 +6,7 @@ import 'package:shop_smart/providers/product_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/viewed_prod_provider.dart';
 import '../../screens/inner_screens/product_details.dart';
+import '../../services/my_app_method.dart';
 import '../subtitle_text.dart';
 import '../title_text.dart';
 import 'heart_btn.dart';
@@ -35,7 +36,8 @@ class _ProductWidgetState extends State<ProductWidget> {
             padding: const EdgeInsets.all(3.0),
             child: GestureDetector(
               onTap: () async {
-                viewedProvider.addProductToHistory(productId: getCurrProduct.productId);
+                viewedProvider.addProductToHistory(
+                    productId: getCurrProduct.productId);
                 await Navigator.pushNamed(
                   context,
                   ProductDetails.routName,
@@ -92,14 +94,29 @@ class _ProductWidgetState extends State<ProductWidget> {
                             child: InkWell(
                               splashColor: Colors.red,
                               borderRadius: BorderRadius.circular(16.0),
-                              onTap: () {
+                              onTap: () async {
                                 if (cartProvider.isProductInCart(
                                     productId: getCurrProduct.productId)) {
                                   return;
                                 }
-                                cartProvider.addProductToCart(
-                                  productId: getCurrProduct.productId,
-                                );
+                                // cartProvider.addProductToCart(
+                                //   productId: getCurrProduct.productId,
+                                // );
+                                try {
+                                  await cartProvider.addToCartFirebase(
+                                      productId: getCurrProduct.productId,
+                                      qty: 1,
+                                      context: context);
+                                } catch (error) {
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    MyAppMethods.showErrorORWarningDialog(
+                                      context: context,
+                                      subtitle: error.toString(),
+                                      fct: () {},
+                                    );
+                                  });
+                                }
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

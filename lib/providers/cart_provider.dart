@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_smart/models/cart_model.dart';
 import 'package:shop_smart/providers/product_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/product_model.dart';
+import '../services/my_app_method.dart';
 
 class CartProvider with ChangeNotifier {
   final Map<String, CartModel> _cartItems = {};
@@ -11,10 +15,45 @@ class CartProvider with ChangeNotifier {
   Map<String, CartModel> get getCartItems {
     return _cartItems;
   }
+// Firebase
+
+  final usersDB = FirebaseFirestore.instance.collection("users");
+  final _auth = FirebaseAuth.instance;
+  Future<void> addToCartFirebase({
+    required String productId,
+    required int qty,
+    required BuildContext context,
+  }) async {
+    final User? user = _auth.currentUser;
+    if (user == null) {
+      MyAppMethods.showErrorORWarningDialog(
+          context: context, subtitle: "No user found", fct: () {});
+      return;
+    }
+    final uid = user.uid;
+    final cartId = const Uuid().v4();
+    try {
+      usersDB.doc(uid).update({
+        'userCart': FieldValue.arrayUnion([
+          {
+            "cartId": cartId,
+            'productId': productId,
+            'quantity': qty,
+          }
+        ])
+      });
+      Fluttertoast.showToast(msg: "Item has been added to cart");
+    } catch (e) {
+      rethrow;
+    }
+  }
+// Local
+  bool isProductInCart({required String productId}) {
+    return _cartItems.containsKey(productId);
+  }
 
   void addProductToCart({required String productId}) {
-    //  "Map.putIfAbsent" => Look up the value of [key], or add a new entry if it isn't there.
-    getCartItems.putIfAbsent(
+    _cartItems.putIfAbsent(
       productId,
       () => CartModel(
         cartId: const Uuid().v4(),
@@ -25,12 +64,8 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isProductInCart({required String productId}) {
-    return _cartItems.containsKey(productId);
-  }
-
   void updateQuantity({required String productId, required int quantity}) {
-    getCartItems.update(
+    _cartItems.update(
       productId,
       (item) => CartModel(
         cartId: item.cartId,
@@ -43,15 +78,15 @@ class CartProvider with ChangeNotifier {
 
   double getTotal({required ProductProvider productProvider}) {
     double total = 0.0;
-    _cartItems.forEach(
-      (key, value) {
-        final ProductModel? getCurrProduct =
-            productProvider.findByProdId(value.productId);
-        if (getCurrProduct != null) {
-          total += double.parse(getCurrProduct.productPrice) * value.quantity;
-        }
-      },
-    );
+    _cartItems.forEach((key, value) {
+      final ProductModel? getCurrProduct =
+          productProvider.findByProdId(value.productId);
+      if (getCurrProduct == null) {
+        total += 0;
+      } else {
+        total += double.parse(getCurrProduct.productPrice) * value.quantity;
+      }
+    });
     return total;
   }
 

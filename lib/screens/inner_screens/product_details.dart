@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
 
+import '../../services/my_app_method.dart';
 import '../../widgets/app_name_text.dart';
 import '../../widgets/products/heart_btn.dart';
 import '../../widgets/subtitle_text.dart';
@@ -110,25 +111,44 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         ),
                                       ),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (cartProvider.isProductInCart(
                                           productId:
                                               getCurrProduct.productId)) {
                                         return;
                                       }
-                                      cartProvider.addProductToCart(
-                                        productId: getCurrProduct.productId,
-                                      );
+                                      // cartProvider.addProductToCart(
+                                      //   productId: getCurrProduct.productId,
+                                      // );
+                                      try {
+                                        cartProvider.addToCartFirebase(
+                                            productId: getCurrProduct.productId,
+                                            qty: 1,
+                                            context: context);
+                                      } catch (error) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
+                                          MyAppMethods.showErrorORWarningDialog(
+                                            context: context,
+                                            subtitle: error.toString(),
+                                            fct: () {},
+                                          );
+                                        });
+                                      }
                                     },
                                     icon: Icon(
                                       cartProvider.isProductInCart(
-                                          productId: getCurrProduct.productId)
-                                      ? Icons.check
-                                      : Icons.add_shopping_cart_rounded,),
+                                              productId:
+                                                  getCurrProduct.productId)
+                                          ? Icons.check
+                                          : Icons.add_shopping_cart_rounded,
+                                    ),
                                     label: Text(
                                       cartProvider.isProductInCart(
-                                          productId: getCurrProduct.productId)
-                                      ? "In cart" : "Add to cart",
+                                              productId:
+                                                  getCurrProduct.productId)
+                                          ? "In cart"
+                                          : "Add to cart",
                                     ),
                                   ),
                                 ),
