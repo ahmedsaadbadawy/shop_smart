@@ -7,8 +7,8 @@ import '../../providers/cart_provider.dart';
 import '../../providers/product_provider.dart';
 
 class CartBottomCheckout extends StatelessWidget {
-  const CartBottomCheckout({super.key});
-
+  const CartBottomCheckout({super.key, required this.function});
+  final Function function;
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
@@ -37,14 +37,16 @@ class CartBottomCheckout extends StatelessWidget {
                                 "Total (${cartProvider.getCartItems.length} products/${cartProvider.getQty()} Items)")),
                     SubtitleTextWidget(
                       label:
-                          "${cartProvider.getTotal(productProvider: productProvider)}\$",
+                          "${cartProvider.getTotal(productProvider: productProvider).toStringAsFixed(2)}\$",
                       color: Colors.blue,
                     ),
                   ],
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await function();
+                },
                 child: const Text("Checkout"),
               ),
             ],
